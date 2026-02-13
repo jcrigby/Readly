@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+usage() {
+  cat <<EOF
+Usage: $(basename "$0") [option]
+
+  -i, --init       Start Claude fresh (type /plan once inside to enter plan mode)
+  -c, --continue   Resume last Claude session
+
+Both modes run with --dangerously-skip-permissions.
+EOF
+  exit 1
+}
+
+[[ $# -eq 0 ]] && usage
+
+case "${1}" in
+  -i|--init)
+    echo "💡 Type /plan once inside to enter plan mode"
+    exec claude --dangerously-skip-permissions
+    ;;
+  -c|--continue)
+    exec claude --continue --dangerously-skip-permissions
+    ;;
+  *)
+    usage
+    ;;
+esac
