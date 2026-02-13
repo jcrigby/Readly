@@ -1,6 +1,6 @@
 {
-	"name": "Feedle",
-	"short_name": "Feedle",
+	"name": "Readly",
+	"short_name": "Readly",
 	"description": "A static RSS reader powered by Google Drive",
 	"start_url": "/",
 	"display": "standalone",

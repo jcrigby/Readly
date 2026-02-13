@@ -1,8 +1,8 @@
-# CLAUDE.md — Feedle Development Guide
+# CLAUDE.md — Readly Development Guide
 
 ## Project Summary
 
-Feedle is a static RSS reader hosted on GitHub Pages. It stores user data in Google Drive and refreshes feeds via GitHub Actions. There is no backend server. The frontend is a Svelte PWA; the feed-fetching worker runs in GitHub Actions on a cron schedule.
+Readly is a static RSS reader hosted on GitHub Pages. It stores user data in Google Drive and refreshes feeds via GitHub Actions. There is no backend server. The frontend is a Svelte PWA; the feed-fetching worker runs in GitHub Actions on a cron schedule.
 
 ## Tech Stack
 
@@ -35,7 +35,7 @@ Everything runs either in the browser (PWA) or in GitHub Actions (worker). Do no
 
 ### Google Drive is the database
 
-User state lives in Google Drive under an app-specific folder (`feedle/`). Files:
+User state lives in Google Drive under an app-specific folder (`readly/`). Files:
 
 - `config.json` — subscriptions, folders, preferences
 - `state.json` — read/unread, saved articles

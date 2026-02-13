@@ -1,4 +1,4 @@
-# Feedle — A Static RSS Reader
+# Readly — A Static RSS Reader
 
 A Feedly-inspired RSS reader that runs as a static site on GitHub Pages, stores state in Google Drive, and refreshes feeds via GitHub Actions.
 
@@ -22,9 +22,9 @@ GitHub Actions (cron)          GitHub Pages (static)
 2. **Static PWA** — Served from GitHub Pages. Reads the pre-built JSON feed bundle. Manages user state (subscriptions, read/unread, folders, saved articles) via the Google Drive API directly from the browser using OAuth.
 
 3. **Google Drive** — Acts as the persistence layer. Stores:
-   - `feedle/config.json` — feed subscriptions, folders, preferences
-   - `feedle/state.json` — read/unread status, saved articles
-   - `feedle/opml.xml` — standard OPML export (kept in sync)
+   - `readly/config.json` — feed subscriptions, folders, preferences
+   - `readly/state.json` — read/unread status, saved articles
+   - `readly/opml.xml` — standard OPML export (kept in sync)
 
 ### Why this shape
 
@@ -56,8 +56,8 @@ GitHub Actions (cron)          GitHub Pages (static)
 ### Setup
 
 ```bash
-git clone https://github.com/YOUR_USER/feedle.git
-cd feedle
+git clone https://github.com/YOUR_USER/readly.git
+cd readly
 npm install
 ```
 
@@ -87,7 +87,7 @@ npm run fetch-feeds  # Run the feed fetcher locally
 ## Project Structure
 
 ```
-feedle/
+readly/
 ├── src/
 │   ├── app.html
 │   ├── lib/
