@@ -30,6 +30,11 @@ export default ts.config(
 			parserOptions: {
 				parser: ts.parser
 			}
+		},
+		rules: {
+			'svelte/no-at-html-tags': 'warn',
+			'svelte/prefer-svelte-reactivity': 'off',
+			'svelte/no-navigation-without-resolve': 'off'
 		}
 	},
 	{
