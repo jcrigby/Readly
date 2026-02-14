@@ -1,13 +1,32 @@
 <script lang="ts">
+	import DOMPurify from 'dompurify';
 	import type { FeedEntry } from '../types';
 	import { authStore, stateStore } from '../stores';
 
-	let { entry }: { entry: FeedEntry | null } = $props();
+	let { entry, onBack }: { entry: FeedEntry | null; onBack?: () => void } = $props();
+
+	let sanitizedContent = $derived(entry?.content ? DOMPurify.sanitize(entry.content) : '');
 </script>
 
 {#if entry}
 	<article class="h-full overflow-y-auto p-6">
 		<header class="mb-4">
+			{#if onBack}
+				<button
+					onclick={onBack}
+					class="mb-3 flex items-center gap-1 text-sm text-gray-500 hover:text-gray-700 lg:hidden dark:text-gray-400 dark:hover:text-gray-200"
+				>
+					<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							stroke-width="2"
+							d="M15 19l-7-7 7-7"
+						/>
+					</svg>
+					Back
+				</button>
+			{/if}
 			<h2 class="text-2xl font-bold text-gray-900 dark:text-white">{entry.title}</h2>
 			<div class="mt-2 flex items-center gap-3 text-sm text-gray-500 dark:text-gray-400">
 				{#if entry.author}
@@ -44,8 +63,8 @@
 		</header>
 
 		<div class="prose prose-sm max-w-none dark:prose-invert">
-			{#if entry.content}
-				{@html entry.content}
+			{#if sanitizedContent}
+				{@html sanitizedContent}
 			{:else}
 				<p>{entry.summary}</p>
 			{/if}

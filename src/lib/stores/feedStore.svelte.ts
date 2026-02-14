@@ -27,7 +27,11 @@ export const feedStore = {
 		loadingState = 'loading';
 		error = null;
 		try {
-			const res = await fetch(bundleUrl);
+			let res = await fetch(bundleUrl);
+			// Fall back to sample data in development
+			if (!res.ok && import.meta.env.DEV) {
+				res = await fetch('/feed-bundle.sample.json');
+			}
 			if (!res.ok) throw new Error(`Failed to fetch bundle: ${res.status}`);
 			bundle = (await res.json()) as FeedBundle;
 			loadingState = 'success';

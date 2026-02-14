@@ -1,12 +1,15 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { Header, Sidebar, EntryList, EntryView } from '$lib/components';
-	import { authStore, feedStore, stateStore } from '$lib/stores';
+	import { AddFeedModal, Header, Sidebar, EntryList, EntryView } from '$lib/components';
+	import { authStore, configStore, feedStore, stateStore } from '$lib/stores';
+	import { generateOpml, parseOpml } from '$lib/opml';
 	import type { FeedEntry } from '$lib/types';
 
 	let sidebarOpen = $state(false);
 	let selectedFeedUrl = $state<string | null>(null);
 	let selectedEntry = $state<FeedEntry | null>(null);
+	let addFeedOpen = $state(false);
+	let mobileView = $state<'list' | 'entry'>('list');
 
 	let visibleEntries = $derived(
 		selectedFeedUrl
@@ -20,16 +23,54 @@
 
 		if (authStore.isSignedIn && authStore.accessToken) {
 			stateStore.loadFromDrive(authStore.accessToken);
+			configStore.loadFromDrive(authStore.accessToken);
 		}
 	});
 
 	function selectEntry(entry: FeedEntry) {
 		selectedEntry = entry;
+		mobileView = 'entry';
 		stateStore.markRead(entry.id, authStore.accessToken);
-		// On mobile, hide the list when viewing an entry
-		if (window.innerWidth < 1024) {
-			sidebarOpen = false;
+	}
+
+	function goBackToList() {
+		selectedEntry = null;
+		mobileView = 'list';
+	}
+
+	async function removeFeed(url: string) {
+		await configStore.removeFeed(url, authStore.accessToken);
+		if (selectedFeedUrl === url) {
+			selectedFeedUrl = null;
+			selectedEntry = null;
 		}
+	}
+
+	function importOpml() {
+		const input = document.createElement('input');
+		input.type = 'file';
+		input.accept = '.opml,.xml';
+		input.onchange = async () => {
+			const file = input.files?.[0];
+			if (!file) return;
+			const text = await file.text();
+			const feeds = parseOpml(text);
+			for (const feed of feeds) {
+				await configStore.addFeed(feed.url, feed.title, authStore.accessToken);
+			}
+		};
+		input.click();
+	}
+
+	function exportOpml() {
+		const opml = generateOpml(configStore.feeds);
+		const blob = new Blob([opml], { type: 'text/xml' });
+		const url = URL.createObjectURL(blob);
+		const a = document.createElement('a');
+		a.href = url;
+		a.download = 'readly-subscriptions.opml';
+		a.click();
+		URL.revokeObjectURL(url);
 	}
 </script>
 
@@ -45,16 +86,24 @@
 				onSelectFeed={(url) => {
 					selectedFeedUrl = url;
 					selectedEntry = null;
+					mobileView = 'list';
+					sidebarOpen = false;
 				}}
 				onSelectAll={() => {
 					selectedFeedUrl = null;
 					selectedEntry = null;
+					mobileView = 'list';
+					sidebarOpen = false;
 				}}
+				onAddFeed={() => (addFeedOpen = true)}
+				onRemoveFeed={removeFeed}
+				onImportOpml={importOpml}
+				onExportOpml={exportOpml}
 			/>
 		</div>
 
-		<!-- Entry list -->
-		<div class="w-80 shrink-0 {selectedEntry && window.innerWidth < 1024 ? 'hidden' : 'block'}">
+		<!-- Entry list (hidden on mobile when viewing an entry) -->
+		<div class="w-full shrink-0 lg:w-80 {mobileView === 'entry' ? 'hidden lg:block' : 'block'}">
 			<EntryList
 				entries={visibleEntries}
 				selectedEntryId={selectedEntry?.id ?? null}
@@ -62,9 +111,9 @@
 			/>
 		</div>
 
-		<!-- Entry view -->
-		<div class="flex-1">
-			<EntryView entry={selectedEntry} />
+		<!-- Entry view (hidden on mobile when showing the list) -->
+		<div class="flex-1 {mobileView === 'list' ? 'hidden lg:block' : 'block'}">
+			<EntryView entry={selectedEntry} onBack={goBackToList} />
 		</div>
 	</div>
 
@@ -83,4 +132,6 @@
 			{feedStore.error}
 		</div>
 	{/if}
+
+	<AddFeedModal open={addFeedOpen} onClose={() => (addFeedOpen = false)} />
 </div>
