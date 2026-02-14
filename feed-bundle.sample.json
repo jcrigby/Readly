@@ -1,0 +1,58 @@
+{
+	"generated": "2026-02-13T12:00:00Z",
+	"feeds": {
+		"https://example.com/blog/feed.xml": {
+			"title": "Example Tech Blog",
+			"url": "https://example.com/blog/feed.xml",
+			"entries": [
+				{
+					"id": "a1b2c3d4e5f6",
+					"title": "Getting Started with Svelte 5",
+					"url": "https://example.com/blog/svelte-5-intro",
+					"published": "2026-02-12T10:00:00Z",
+					"summary": "Svelte 5 introduces runes, a new way to handle reactivity. In this post we explore $state, $derived, and $effect — the three runes you'll use most often.",
+					"content": "<p>Svelte 5 introduces <strong>runes</strong>, a new way to handle reactivity. In this post we explore <code>$state</code>, <code>$derived</code>, and <code>$effect</code> — the three runes you'll use most often.</p><h3>What are runes?</h3><p>Runes are special compiler instructions that replace the old reactive declarations (<code>$:</code>) with explicit, composable primitives.</p>",
+					"author": "Jane Developer"
+				},
+				{
+					"id": "b2c3d4e5f6a7",
+					"title": "Tailwind CSS v4: What's New",
+					"url": "https://example.com/blog/tailwind-v4",
+					"published": "2026-02-10T14:30:00Z",
+					"summary": "Tailwind CSS v4 brings a new engine, CSS-first configuration, and significantly faster builds. Here's everything you need to know about the upgrade.",
+					"author": "Bob Styles"
+				},
+				{
+					"id": "c3d4e5f6a7b8",
+					"title": "Building Offline-First PWAs",
+					"url": "https://example.com/blog/offline-pwa",
+					"published": "2026-02-08T09:00:00Z",
+					"summary": "Progressive Web Apps that work offline provide a reliable experience regardless of network conditions. We'll build one from scratch using service workers and the Cache API.",
+					"content": "<p>Progressive Web Apps that work offline provide a reliable experience regardless of network conditions.</p><p>We'll build one from scratch using <em>service workers</em> and the <em>Cache API</em>.</p>",
+					"author": "Jane Developer"
+				}
+			]
+		},
+		"https://news.example.com/rss": {
+			"title": "Daily Tech News",
+			"url": "https://news.example.com/rss",
+			"entries": [
+				{
+					"id": "d4e5f6a7b8c9",
+					"title": "GitHub Actions Now Supports Arm64 Runners",
+					"url": "https://news.example.com/github-arm64",
+					"published": "2026-02-13T08:00:00Z",
+					"summary": "GitHub has announced general availability of Arm64 runners for GitHub Actions, offering up to 40% cost savings for compatible workloads."
+				},
+				{
+					"id": "e5f6a7b8c9d0",
+					"title": "TypeScript 6.0 Beta Released",
+					"url": "https://news.example.com/typescript-6",
+					"published": "2026-02-11T16:00:00Z",
+					"summary": "The TypeScript team has released the first beta of TypeScript 6.0, featuring improved type inference, faster compilation, and new decorator metadata support.",
+					"author": "News Desk"
+				}
+			]
+		}
+	}
+}
