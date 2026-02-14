@@ -3,6 +3,7 @@ import type { OAuth2Tokens } from '../types';
 const SCOPES = 'https://www.googleapis.com/auth/drive.file';
 
 let tokens = $state<OAuth2Tokens | null>(null);
+let authError = $state<string | null>(null);
 const isSignedIn = $derived(tokens !== null && Date.now() < (tokens?.expiresAt ?? 0));
 
 export const authStore = {
@@ -15,11 +16,16 @@ export const authStore = {
 	get accessToken(): string | null {
 		return isSignedIn ? tokens!.accessToken : null;
 	},
+	get authError() {
+		return authError;
+	},
 
 	signIn() {
+		authError = null;
 		const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 		if (!clientId) {
-			console.error('VITE_GOOGLE_CLIENT_ID not set');
+			authError =
+				'Google OAuth not configured. Set VITE_GOOGLE_CLIENT_ID in .env to enable sign in.';
 			return;
 		}
 		const redirectUri = window.location.origin + '/';

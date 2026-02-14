@@ -117,6 +117,14 @@
 		</div>
 	</div>
 
+	{#if authStore.authError}
+		<div
+			class="fixed bottom-4 left-4 right-4 rounded-md bg-amber-600 px-4 py-3 text-sm text-white shadow-lg sm:left-auto sm:max-w-md"
+		>
+			{authStore.authError}
+		</div>
+	{/if}
+
 	{#if feedStore.loadingState === 'loading'}
 		<div
 			class="fixed bottom-4 right-4 rounded-md bg-indigo-600 px-3 py-1.5 text-sm text-white shadow-lg"
