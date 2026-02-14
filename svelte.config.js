@@ -9,7 +9,10 @@ const config = {
 			pages: 'build',
 			assets: 'build',
 			fallback: 'index.html'
-		})
+		}),
+		paths: {
+			base: process.env.GITHUB_ACTIONS ? '/Readly' : ''
+		}
 	}
 };
 
