@@ -11,6 +11,17 @@
 	let addFeedOpen = $state(false);
 	let mobileView = $state<'list' | 'entry'>('list');
 
+	let sidebarFeeds = $derived(
+		configStore.feeds.map((sub) => {
+			const bundleFeed = feedStore.bundle?.feeds[sub.url];
+			return {
+				url: sub.url,
+				title: bundleFeed?.title ?? sub.title,
+				entryCount: bundleFeed?.entries.length ?? 0
+			};
+		})
+	);
+
 	let visibleEntries = $derived(
 		selectedFeedUrl
 			? (feedStore.bundle?.feeds[selectedFeedUrl]?.entries ?? [])
@@ -81,7 +92,7 @@
 		<!-- Sidebar -->
 		<div class="w-64 shrink-0 {sidebarOpen ? 'block' : 'hidden'} lg:block">
 			<Sidebar
-				feeds={feedStore.feeds}
+				feeds={sidebarFeeds}
 				{selectedFeedUrl}
 				onSelectFeed={(url) => {
 					selectedFeedUrl = url;

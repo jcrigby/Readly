@@ -1,5 +1,9 @@
 <script lang="ts">
-	import type { FeedData } from '../types';
+	interface SidebarFeed {
+		url: string;
+		title: string;
+		entryCount: number;
+	}
 
 	let {
 		feeds,
@@ -11,7 +15,7 @@
 		onImportOpml,
 		onExportOpml
 	}: {
-		feeds: FeedData[];
+		feeds: SidebarFeed[];
 		selectedFeedUrl: string | null;
 		onSelectFeed: (url: string) => void;
 		onSelectAll: () => void;
@@ -66,7 +70,7 @@
 						: 'text-gray-600 hover:bg-gray-200 dark:text-gray-400 dark:hover:bg-gray-800'}"
 				>
 					{feed.title}
-					<span class="ml-1 text-xs text-gray-400 dark:text-gray-500">{feed.entries.length}</span>
+					<span class="ml-1 text-xs text-gray-400 dark:text-gray-500">{feed.entryCount}</span>
 				</button>
 				<button
 					onclick={() => onRemoveFeed(feed.url)}

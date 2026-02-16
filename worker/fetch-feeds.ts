@@ -1,8 +1,11 @@
 import { writeFileSync } from 'fs';
 import { resolve } from 'path';
+import { config } from 'dotenv';
 import { parseFeed } from '../src/lib/feed-parser';
 import type { FeedBundle, FeedData } from '../src/lib/types';
 import { fetchConfig, getAccessToken } from './drive-sync';
+
+config(); // load .env for local runs
 
 const MAX_ENTRIES_PER_FEED = 50;
 const FETCH_TIMEOUT_MS = 15_000;
