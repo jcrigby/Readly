@@ -29,6 +29,8 @@ jobs:
         run: npm run fetch-feeds
 
       - name: Build site
+        env:
+          VITE_GOOGLE_CLIENT_ID: ${{ secrets.VITE_GOOGLE_CLIENT_ID }}
         run: npm run build
 
       - name: Deploy to GitHub Pages
